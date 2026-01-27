@@ -1,0 +1,52 @@
+{
+  "users": [
+    {
+      "id": "f8b3",
+      "fname": "Dilu",
+      "lname": "Pradhan",
+      "mail": "dilu@gmail.com",
+      "DOB": "2026-01-23",
+      "gender": "male",
+      "course": "Python",
+      "profile_url": "NA",
+      "password": "12",
+      "rePassword": "12"
+    },
+    {
+      "id": "re45",
+      "fname": "Raja",
+      "lname": "Das",
+      "mail": "raja@gmail.com",
+      "DOB": "2026-01-13",
+      "gender": "male",
+      "course": "Data Analytics",
+      "profile_url": "NA",
+      "password": "12",
+      "rePassword": "12"
+    },
+    {
+      "id": "db28",
+      "fname": "Anshuman",
+      "lname": "Bhoi",
+      "mail": "anshuman@gmail.com",
+      "DOB": "2026-01-14",
+      "gender": "male",
+      "course": "MERN",
+      "profile_url": "NA",
+      "password": "12",
+      "rePassword": "12"
+    },
+    {
+      "fname": "sandeep",
+      "lname": "dalai",
+      "mail": "sandeep@gmail.com",
+      "DOB": "2026-01-21",
+      "gender": "male",
+      "course": "DevOps",
+      "profile_url": "NA",
+      "password": "12",
+      "rePassword": "12"
+    }
+  ],
+  "posts": []
+}
