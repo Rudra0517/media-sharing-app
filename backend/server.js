@@ -7,7 +7,7 @@ app.use(express.json());
 //! connection with different port number
 const cors = require("cors");
 app.use(cors());
-
+const bcrypt = require("bcrypt");
 //! Connect with database
 const connectDB = require("./config/db");
 connectDB();
@@ -71,6 +71,8 @@ app.post("/register", async (req, res) => {
     return res.status(409).json({ message: "User already exists" });
   }
 
+  const hashPassword = await bcrypt.hash(password, 10);
+
   const result = await userModel.insertOne({
     fname,
     lname,
@@ -79,11 +81,11 @@ app.post("/register", async (req, res) => {
     gender,
     course,
     profile_url,
-    password,
-    rePassword,
+    password: hashPassword,
+    rePassword: hashPassword,
   });
-  console.log(result);
-  res.status(201).json({ message: "Register successfully", result });
+
+  res.status(201).json({ message: "Register successfully" });
 });
 
 //* User login
@@ -96,8 +98,9 @@ app.post("/login", async (req, res) => {
     if (!user) {
       res.status(404).json({ message: "Email not found" });
     }
+    const match = await bcrypt.compare(password, user.password);
 
-    if (user.password != password) {
+    if (!match) {
       res.status(401).json({ message: "Incorrect password" });
     }
 
@@ -118,9 +121,18 @@ app.put("/allusers/:id", async (req, res) => {
     const _id = id;
     const data = req.body;
 
+    const hashPassword = await bcrypt.hash(data.password, 10);
+
     const updatedData = await userModel.updateOne(
       { _id },
-      { $set: { _id, ...data } },
+      {
+        $set: {
+          _id,
+          ...data,
+          password: hashPassword,
+          rePassword: hashPassword,
+        },
+      },
     );
     res.status(200).json({ message: "user is updated successfully.", data });
   } catch (error) {
@@ -136,6 +148,30 @@ app.delete("/allusers/:id", async (req, res) => {
   await userModel.deleteOne({ _id });
 
   res.status(204).json({ message: "user Deleted successfully." });
+});
+
+//* Reset Password
+app.post("/resetpassword", async (req, res) => {
+  try {
+    const { mail, password, rePassword } = req.body;
+    const user = await userModel.findOne({ mail: mail });
+
+    if (!user) {
+      return res.status(409).json({ message: "User not exists" });
+    }
+
+    const hashPassword = await bcrypt.hash(password, 10);
+
+    await userModel.updateOne(
+      { mail },
+      { $set: { password: hashPassword, rePassword: hashPassword } },
+    );
+    res.status(200).json({ message: "user updated successfully" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal server error. please try again" });
+  }
 });
 
 app.listen(process.env.PORT, () => {

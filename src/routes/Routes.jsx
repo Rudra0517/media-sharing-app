@@ -15,6 +15,7 @@ import MyPosts from "../pages/posts/MyPosts";
 import About from "../pages/about/About";
 import Contact from "../pages/contact/Contact";
 import ErrorPage from "../pages/errorpage/ErrorPage";
+import ResetPassword from "../pages/resetpassword/ResetPassword";
 
 export const routes = createBrowserRouter([
   {
@@ -81,5 +82,9 @@ export const routes = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/resetpassword",
+    element: <ResetPassword />,
   },
 ]);
