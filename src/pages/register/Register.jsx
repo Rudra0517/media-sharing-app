@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
+// import sendMessageViaMail from "../../../backend/config/email";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -55,7 +56,6 @@ const Register = () => {
 
     try {
       const data = await axios.post("http://localhost:8080/register", formData);
-
       toast.success("Registered successfully", { position: "top-center" });
       setFormData({
         fname: "",

@@ -14,6 +14,7 @@ connectDB();
 
 //! import collection(s)/model(s)
 const { userModel } = require("./models/user");
+const sendMessageViaMail = require("./config/email");
 
 //* check server connection
 app.get("/test", (req, res) => {
@@ -84,7 +85,11 @@ app.post("/register", async (req, res) => {
     password: hashPassword,
     rePassword: hashPassword,
   });
-
+      sendMessageViaMail(
+        mail,
+        "Registration successfull",
+        "First message to verify nodemailer",
+      );
   res.status(201).json({ message: "Register successfully" });
 });
 
